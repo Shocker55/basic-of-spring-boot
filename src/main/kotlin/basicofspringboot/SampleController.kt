@@ -8,21 +8,21 @@ import org.springframework.web.bind.annotation.RestController
 
 // @RestController でエンドポイントになる
 @RestController
-class SampleController {
+class SampleController(val sampleService: SampleService) {
     // @GetMapping() で引数のパスに GET リクエストが送れるようになる
     @GetMapping("/")
     fun getPerson(): ResponseEntity<PersonResponse> {
-        return ResponseEntity(PersonResponse(Person(name = "Alice", age = 23)), HttpStatus.OK)
+        val result = sampleService.execute()
+        return ResponseEntity(PersonResponse(Person(name = result.person.name, age = result.person.age)), HttpStatus.OK)
     }
 }
 
 // @JsonProperty で ResponseEntity クラスに渡したとき、レスポンスが JSON に変換される
 data class PersonResponse(
-        @JsonProperty("person", required = true) val person: Person,
+    @JsonProperty("person", required = true) val person: Person,
 )
 
 data class Person(
-        @JsonProperty("name", required = true) val name: String,
-        @JsonProperty("age", required = true) val age: Int,
+    @JsonProperty("name", required = true) val name: String,
+    @JsonProperty("age", required = true) val age: Int,
 )
-
