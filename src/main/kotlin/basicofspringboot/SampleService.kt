@@ -8,9 +8,10 @@ interface SampleService {
 
 // @Service アノテーションを記述すると DI に使われる
 @Service
-class SampleServiceImpl : SampleService {
+class SampleServiceImpl(val sampleRepository: SampleRepository) : SampleService {
+    val samplePersonFromDb = sampleRepository.getPersonFromDb()
     override fun execute(): ServiceDto {
-        return ServiceDto(ServicePerson("Alice", 23))
+        return ServiceDto(ServicePerson(samplePersonFromDb.name, samplePersonFromDb.age))
     }
 }
 
