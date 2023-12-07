@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
+// SampleController の依存先は SampleService というインタフェースであるため、
+// Repository とは無関係にテストができる。
 class SampleControllerTest {
     @Test
     fun `SampleService を DI したテスト`() {
